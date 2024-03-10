@@ -19,6 +19,7 @@ require("puppeteer-extra-plugin-stealth/evasions/user-agent-override");
 require("puppeteer-extra-plugin-stealth/evasions/webgl.vendor");
 require("puppeteer-extra-plugin-stealth/evasions/window.outerdimensions");
 require("puppeteer-extra-plugin-user-preferences");
+require("puppeteer-extra-plugin-user-data-dir");
 
 // Now you can import the StealthPlugin :D
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");

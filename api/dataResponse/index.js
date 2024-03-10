@@ -13,6 +13,8 @@ const x = async (req, res) => {
 
   const page = await browser.newPage();
 
+  console.log("he");
+
   //await page.setRequestInterception(true);
 
   await page.goto(url, {

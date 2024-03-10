@@ -5,6 +5,9 @@
   "author": "rayremnant",
   "license": "ISC",
   "description": "",
+  "pkg": {
+    "assets": "node_modules/puppeteer-extra-plugin-stealth/**/*.*"
+  },
   "dependencies": {
     "puppeteer": "^21.6.1",
     "puppeteer-extra": "^3.3.6",

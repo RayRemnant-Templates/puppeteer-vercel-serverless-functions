@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer-extra");
+const chromium = require("@sparticuz/chromium-min");
 
 // Add the Imports before StealthPlugin
 require("puppeteer-extra-plugin-stealth/evasions/chrome.app");
@@ -28,8 +29,13 @@ puppeteer.use(StealthPlugin());
 
 const x = async (req, res) => {
   const browser = await puppeteer.launch({
-    headless: "new",
-    // ...more config options
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath(
+      "https://github.com/Sparticuz/chromium/releases/download/v110.0.1/chromium-v110.0.1-pack.tar"
+    ),
+    headless: chromium.headless,
+    ignoreHTTPSErrors: true,
   });
 
   const page = await browser.newPage();

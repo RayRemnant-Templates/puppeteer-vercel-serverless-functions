@@ -6,7 +6,7 @@
   "license": "ISC",
   "description": "",
   "pkg": {
-    "assets": "node_modules/puppeteer-extra-plugin-stealth/**/*.*"
+    "assets": "node_modules/**/*.*"
   },
   "dependencies": {
     "puppeteer": "^21.6.1",

@@ -1,75 +1,31 @@
-const puppeteer = require("puppeteer-extra");
+const puppeteer = require("puppeteer-core");
 const chromium = require("@sparticuz/chromium-min");
 
-// Add the Imports before StealthPlugin
-require("puppeteer-extra-plugin-stealth/evasions/chrome.app");
-require("puppeteer-extra-plugin-stealth/evasions/chrome.csi");
-require("puppeteer-extra-plugin-stealth/evasions/chrome.loadTimes");
-require("puppeteer-extra-plugin-stealth/evasions/chrome.runtime");
-require("puppeteer-extra-plugin-stealth/evasions/defaultArgs"); // pkg warned me this one was missing
-require("puppeteer-extra-plugin-stealth/evasions/iframe.contentWindow");
-require("puppeteer-extra-plugin-stealth/evasions/media.codecs");
-require("puppeteer-extra-plugin-stealth/evasions/navigator.hardwareConcurrency");
-require("puppeteer-extra-plugin-stealth/evasions/navigator.languages");
-require("puppeteer-extra-plugin-stealth/evasions/navigator.permissions");
-require("puppeteer-extra-plugin-stealth/evasions/navigator.plugins");
-require("puppeteer-extra-plugin-stealth/evasions/navigator.vendor");
-require("puppeteer-extra-plugin-stealth/evasions/navigator.webdriver");
-require("puppeteer-extra-plugin-stealth/evasions/sourceurl");
-require("puppeteer-extra-plugin-stealth/evasions/user-agent-override");
-require("puppeteer-extra-plugin-stealth/evasions/webgl.vendor");
-require("puppeteer-extra-plugin-stealth/evasions/window.outerdimensions");
-require("puppeteer-extra-plugin-user-preferences");
-require("puppeteer-extra-plugin-user-data-dir");
+const handler = async () => {
+  try {
+    const browser = await puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(
+        "https://github.com/Sparticuz/chromium/releases/download/v110.0.1/chromium-v110.0.1-pack.tar"
+      ),
+      headless: chromium.headless,
+      ignoreHTTPSErrors: true,
+    });
 
-// Now you can import the StealthPlugin :D
-const StealthPlugin = require("puppeteer-extra-plugin-stealth");
-puppeteer.use(StealthPlugin());
-// The rest of your code here :)
+    const page = await browser.newPage();
 
-const x = async (req, res) => {
-  const browser = await puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath(
-      "https://github.com/Sparticuz/chromium/releases/download/v110.0.1/chromium-v110.0.1-pack.tar"
-    ),
-    headless: chromium.headless,
-    ignoreHTTPSErrors: true,
-  });
+    await page.goto("https://www.example.com", { waitUntil: "networkidle0" });
 
-  const page = await browser.newPage();
+    console.log("Chromium:", await browser.version());
+    console.log("Page Title:", await page.title());
 
-  //await page.setRequestInterception(true);
+    await page.close();
 
-  const urlOfRequest = "https://graphql.hagglezon.com/";
-
-  await page.goto(`https://www.hagglezon.com/en/s/B0BX4J8M5J`, {
-    timeout: 10000,
-  });
-
-  const finalResponse = await page.waitForResponse(
-    (response) =>
-      response.url() === urlOfRequest &&
-      (response.request().method() === "PATCH" ||
-        response.request().method() === "POST"),
-    11
-  );
-  let responseJson = await finalResponse.json();
-
-  console.log(responseJson);
-
-  await page.screenshot({ path: "./stuff.png" });
-
-  //await page.goto(`<your-target-url>`, { waitUntil: "networkidle2" });
-
-  // ...do something here
-
-  await browser.close();
-
-  //res.send("hello");
+    await browser.close();
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
-x();
-
-module.exports = x;
+handler().then(() => console.log("Done"));

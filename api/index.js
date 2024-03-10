@@ -1,5 +1,6 @@
 const puppeteer = require("puppeteer-extra");
 
+// Add the Imports before StealthPlugin
 require("puppeteer-extra-plugin-stealth/evasions/chrome.app");
 require("puppeteer-extra-plugin-stealth/evasions/chrome.csi");
 require("puppeteer-extra-plugin-stealth/evasions/chrome.loadTimes");
@@ -18,8 +19,10 @@ require("puppeteer-extra-plugin-stealth/evasions/user-agent-override");
 require("puppeteer-extra-plugin-stealth/evasions/webgl.vendor");
 require("puppeteer-extra-plugin-stealth/evasions/window.outerdimensions");
 
+// Now you can import the StealthPlugin :D
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
+// The rest of your code here :)
 
 const x = async (req, res) => {
   const browser = await puppeteer.launch({

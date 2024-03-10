@@ -3,6 +3,9 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
 const x = async (req, res) => {
+  const { url, requestUrl } = req.query;
+  console.log("Query parameters:", queryParams);
+
   const browser = await puppeteer.launch({
     headless: "new",
     // ...more config options
@@ -12,15 +15,13 @@ const x = async (req, res) => {
 
   //await page.setRequestInterception(true);
 
-  const urlOfRequest = "https://graphql.hagglezon.com/";
-
-  await page.goto(`https://www.hagglezon.com/en/s/B0BX4J8M5J`, {
+  await page.goto(url, {
     timeout: 10000,
   });
 
   const finalResponse = await page.waitForResponse(
     (response) =>
-      response.url() === urlOfRequest &&
+      response.url() === requestUrl &&
       (response.request().method() === "PATCH" ||
         response.request().method() === "POST"),
     11
@@ -29,15 +30,9 @@ const x = async (req, res) => {
 
   console.log(responseJson);
 
-  await page.screenshot({ path: "./stuff.png" });
-
-  //await page.goto(`<your-target-url>`, { waitUntil: "networkidle2" });
-
-  // ...do something here
-
   await browser.close();
 
-  //res.send("hello");
+  res.send(responseJson);
 };
 
 module.exports = x;

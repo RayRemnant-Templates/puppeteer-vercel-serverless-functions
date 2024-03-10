@@ -1,19 +1,17 @@
 {
-  "name": "vercel-serverless-functions",
-  "version": "1.0.0",
-  "main": "/api/index.js",
-  "author": "rayremnant",
+  "name": "idk",
+  "version": "0.0.0",
+  "description": "This package demonstrates using @sparticuz/chromium-min",
   "license": "ISC",
-  "description": "",
-  "pkg": {
-    "assets": "node_modules/**/*.*"
+  "author": {
+    "name": "Kyle McNally"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
   },
   "dependencies": {
-    "@sparticuz/chromium-min": "^122.0.0",
-    "puppeteer-core": "^10.4.0",
-    "puppeteer-extra": "^3.3.4",
-    "puppeteer-extra-plugin-stealth": "^2.11.1",
-    "puppeteer-extra-plugin-user-data-dir": "^2.4.0",
-    "puppeteer-extra-plugin-user-preferences": "^2.4.0"
+    "@sparticuz/chromium-min": "110.0.1",
+    "puppeteer-core": "19.6.3"
   }
 }
